@@ -15,19 +15,46 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// Define the Prisma schema
+
+// schema.prisma
+
 model Product {
-  product_id              String          @id
-  availability            String
-  name                    String
-  price                   String
-  oldPrice                String
-  displayDiscountPercentage String
-  familyName              String
-  subfamilyName           String
-  sectionName             String
-  img                     String
-  link                    String
+  product_id                 String      @id
+  availability               String
+  name                       String
+  price                      String
+  oldPrice                   String      @default("")
+  displayDiscountPercentage  String
+  familyName                 String
+  subfamilyName              String
+  sectionName                String
+  img                        String
+  link                       String
+  websiteName                String 
+  favorites  Favorite[]     
 }
+
+model User {
+  id         Int       @id @default(autoincrement())
+  firstName  String
+  lastName   String
+  username   String    @unique
+  email      String    @unique
+  password   String  
+  isAdmin    Boolean   @default(false)
+  favorites  Favorite[] // Define a one-to-many relationship with the Favorite model
+}
+
+
+// Define the Favorite model
+model Favorite {
+  id            Int       @id @default(autoincrement())
+  user          User      @relation(fields: [userId], references: [id])
+  userId        Int
+  product       Product   @relation(fields: [productId], references: [product_id])
+  productId     String
+  
+}
+
 
 

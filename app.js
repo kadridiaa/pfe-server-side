@@ -1,5 +1,6 @@
 const express = require("express");
 const productRouter = require("./router/ProductRouter");
+const userRoutes = require("./router/userRoutes");
 
 const app = express();
 
@@ -7,6 +8,7 @@ app.use(express.json());
 
 // Use the product router
 app.use("/products", productRouter);
+app.use("/users", userRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
