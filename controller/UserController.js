@@ -61,40 +61,34 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-// Function to hash a password
-async function hashPassword(password) {
-  try {
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-    return hashedPassword;
-  } catch (error) {
-    throw new Error("Error hashing password");
-  }
-}
-
 // Create a new user
 exports.createUser = async (req, res) => {
-  const { username, email, firstName, lastName, password, isAdmin } = req.body;
-  try {
-    // Hash the password
-    const hashedPassword = await hashPassword(password);
+  const { firstName, lastName, username, email, password, isAdmin } = req.body;
 
-    // Create user with hashed password
+  // Hash the password
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  try {
     const newUser = await prisma.user.create({
       data: {
-        username,
-        email,
         firstName,
         lastName,
-        password: hashedPassword, // Store hashed password in the database
+        username,
+        email,
+        password: hashedPassword,
         isAdmin,
       },
     });
 
-    res.status(201).json(newUser);
+    // Generate JWT token
+    const token = jwt.sign({ userId: newUser.id }, "your_secret_key", {
+      expiresIn: "1h",
+    });
+
+    res.json({ user: newUser, token });
   } catch (error) {
     console.error("Error creating user:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
