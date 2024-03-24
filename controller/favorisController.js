@@ -5,27 +5,9 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 // Controller function to get favorited products by current user
-exports.getFavoriteProducts = async (req, res) => {
-  const userId = req.user.id; // Assuming userId is available through authentication middleware
-
-  try {
-    const favoriteProducts = await prisma.favorite.findMany({
-      where: {
-        userId: userId,
-      },
-      include: {
-        product: true,
-      },
-    });
-
-    res.json(favoriteProducts.map((favorite) => favorite.product));
-  } catch (error) {
-    console.error("Error fetching favorite products:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
 exports.createFavorite = async (req, res) => {
-  const { userId, productId } = req.body;
+  const { productId } = req.body;
+  const userId = req.user.userId; // Extracted from the token
 
   try {
     const newFavorite = await prisma.favorite.create({
@@ -41,6 +23,7 @@ exports.createFavorite = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 // Controller function to get all favorites
 exports.getAllFavorites = async (req, res) => {
   try {
@@ -58,12 +41,17 @@ exports.getAllFavorites = async (req, res) => {
 };
 // Controller function to get all favorites of a user
 exports.getFavoritesByUser = async (req, res) => {
-  const userId = req.params.userId;
+  // Controller function to get all favorites of a user
+  const userId = req.user.userId; // Extracted from the token
+
+  if (!userId || typeof userId !== "number") {
+    return res.status(400).json({ error: "Invalid userId" });
+  }
 
   try {
     const favorites = await prisma.favorite.findMany({
       where: {
-        userId: parseInt(userId),
+        userId: userId, // Provide the userId directly
       },
       include: {
         product: true,
@@ -76,7 +64,6 @@ exports.getFavoritesByUser = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
 // Controller function to update a favorite
 exports.updateFavorite = async (req, res) => {
   const favoriteId = req.params.favoriteId;

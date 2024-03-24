@@ -27,7 +27,7 @@ exports.loginUser = async (req, res) => {
     );
 
     // Send the token in the response
-    res.json({ user, token });
+    res.json({ token });
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ error: "Internal server error." });
@@ -85,7 +85,7 @@ exports.createUser = async (req, res) => {
       expiresIn: "1h",
     });
 
-    res.json({ user: newUser, token });
+    res.json({ token });
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).json({ error: "Internal server error" });
