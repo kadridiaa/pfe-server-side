@@ -17,7 +17,7 @@ exports.createProduct = async (req, res) => {
     link,
   } = req.body;
   try {
-    const newProduct = await prisma.product.create({
+    const newProduct = await prisma.products.create({
       data: {
         product_id,
         availability,
@@ -41,7 +41,7 @@ exports.createProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await prisma.product.findMany();
+    const products = await prisma.products.findMany();
     res.json(products);
   } catch (error) {
     console.error(error);
@@ -52,7 +52,7 @@ exports.getAllProducts = async (req, res) => {
 exports.getProductById = async (req, res) => {
   const productId = req.params.id;
   try {
-    const product = await prisma.product.findUnique({
+    const product = await prisma.products.findUnique({
       where: {
         product_id: productId,
       },
@@ -83,7 +83,7 @@ exports.updateProduct = async (req, res) => {
     link,
   } = req.body;
   try {
-    const updatedProduct = await prisma.product.update({
+    const updatedProduct = await prisma.products.update({
       where: {
         product_id: productId,
       },
@@ -110,7 +110,7 @@ exports.updateProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
   const productId = req.params.id;
   try {
-    const deletedProduct = await prisma.product.delete({
+    const deletedProduct = await prisma.products.delete({
       where: {
         product_id: productId,
       },

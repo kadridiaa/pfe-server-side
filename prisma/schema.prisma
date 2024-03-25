@@ -16,18 +16,18 @@ generator client {
 }
 
 // Define the Prisma schema
-model Product {
+model products {
   product_id              String          @id
-  availability            String
-  name                    String
-  price                   String
-  oldPrice                String
-  displayDiscountPercentage String
-  familyName              String
-  subfamilyName           String
-  sectionName             String
-  img                     String
-  link                    String
+  availability            String?
+  name                    String?
+  price                   String?
+  oldPrice                String?
+  displayDiscountPercentage String?
+  familyName              String?
+  subfamilyName           String?
+  sectionName             String?
+  img                     String?
+  link                    String?
 }
 
 
