@@ -15,6 +15,7 @@ exports.createProduct = async (req, res) => {
     sectionName,
     img,
     link,
+    websiteName,
   } = req.body;
   try {
     const newProduct = await prisma.products.create({
@@ -30,6 +31,7 @@ exports.createProduct = async (req, res) => {
         sectionName,
         img,
         link,
+        websiteName,
       },
     });
     res.json(newProduct);
@@ -121,3 +123,4 @@ exports.deleteProduct = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
