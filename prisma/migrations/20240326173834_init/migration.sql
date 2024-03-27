@@ -1,11 +1,20 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE `products` (
+    `product_id` VARCHAR(191) NOT NULL,
+    `availability` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
+    `price` VARCHAR(191) NOT NULL,
+    `oldPrice` VARCHAR(191) NOT NULL DEFAULT '',
+    `displayDiscountPercentage` VARCHAR(191) NOT NULL,
+    `familyName` VARCHAR(191) NOT NULL,
+    `subfamilyName` VARCHAR(191) NOT NULL,
+    `sectionName` VARCHAR(191) NOT NULL,
+    `img` VARCHAR(191) NOT NULL,
+    `link` VARCHAR(191) NOT NULL,
+    `websiteName` VARCHAR(191) NOT NULL,
 
-  - Added the required column `websiteName` to the `Product` table without a default value. This is not possible if the table is not empty.
-
-*/
--- AlterTable
-ALTER TABLE `product` ADD COLUMN `websiteName` VARCHAR(191) NOT NULL;
+    PRIMARY KEY (`product_id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `User` (
@@ -35,4 +44,4 @@ CREATE TABLE `Favorite` (
 ALTER TABLE `Favorite` ADD CONSTRAINT `Favorite_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Favorite` ADD CONSTRAINT `Favorite_productId_fkey` FOREIGN KEY (`productId`) REFERENCES `Product`(`product_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Favorite` ADD CONSTRAINT `Favorite_productId_fkey` FOREIGN KEY (`productId`) REFERENCES `products`(`product_id`) ON DELETE RESTRICT ON UPDATE CASCADE;

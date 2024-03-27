@@ -11,7 +11,8 @@ exports.loginUser = async (req, res) => {
     const user = await prisma.user.findUnique({
       where: { email },
     });
-
+    console.log(user)
+    
     // Check if the user exists and the password is correct
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ error: "Invalid credentials." });

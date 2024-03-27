@@ -5,37 +5,42 @@ const prisma = new PrismaClient();
 
 exports.getProductsmen = async (req, res) => {
   try {
-    const products = await prisma.product.findMany({
+    const products = await prisma.products.findMany({
       where: {
-        sectionName: "man",
+        sectionName: "MAN", 
       },
     });
+    console.log(products); // Print products in the console
     res.json(products);
   } catch (error) {
     console.error("Error retrieving products:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 exports.getProductswomen = async (req, res) => {
   try {
-    const products = await prisma.product.findMany({
+    const products = await prisma.products.findMany({
       where: {
-        sectionName: "women",
+        sectionName: "WOMAN", 
       },
     });
+    console.log(products); // Print products in the console
     res.json(products);
   } catch (error) {
     console.error("Error retrieving products:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 exports.getProductschildren = async (req, res) => {
   try {
-    const products = await prisma.product.findMany({
+    const products = await prisma.products.findMany({
       where: {
-        sectionName: "children",
+        sectionName: "CHILDREN",
       },
     });
+    console.log(products); // Print products in the console
     res.json(products);
   } catch (error) {
     console.error("Error retrieving products:", error);

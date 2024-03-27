@@ -5,8 +5,9 @@ const userRoutes = require("./router/UserRouter");
 const trierRouter = require("./router/trierRouter");
 const favorisRouter = require("./router/favorisRouter");
 const app = express();
-app.use(cors({ origin: 'http://localhost:3000' }));
 
+// Enable CORS for requests from http://localhost:3000
+app.use(cors({ origin: 'http://localhost:3000' }));
 
 app.use(express.json());
 

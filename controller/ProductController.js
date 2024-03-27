@@ -45,11 +45,13 @@ exports.getAllProducts = async (req, res) => {
   try {
     const products = await prisma.products.findMany();
     res.json(products);
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 exports.getProductById = async (req, res) => {
   const productId = req.params.id;

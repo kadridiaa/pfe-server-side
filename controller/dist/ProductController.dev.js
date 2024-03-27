@@ -6,13 +6,13 @@ var _require = require("@prisma/client"),
 var prisma = new PrismaClient();
 
 exports.createProduct = function _callee(req, res) {
-  var _req$body, product_id, availability, name, price, oldPrice, displayDiscountPercentage, familyName, subfamilyName, sectionName, img, link, newProduct;
+  var _req$body, product_id, availability, name, price, oldPrice, displayDiscountPercentage, familyName, subfamilyName, sectionName, img, link, websiteName, newProduct;
 
   return regeneratorRuntime.async(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          _req$body = req.body, product_id = _req$body.product_id, availability = _req$body.availability, name = _req$body.name, price = _req$body.price, oldPrice = _req$body.oldPrice, displayDiscountPercentage = _req$body.displayDiscountPercentage, familyName = _req$body.familyName, subfamilyName = _req$body.subfamilyName, sectionName = _req$body.sectionName, img = _req$body.img, link = _req$body.link;
+          _req$body = req.body, product_id = _req$body.product_id, availability = _req$body.availability, name = _req$body.name, price = _req$body.price, oldPrice = _req$body.oldPrice, displayDiscountPercentage = _req$body.displayDiscountPercentage, familyName = _req$body.familyName, subfamilyName = _req$body.subfamilyName, sectionName = _req$body.sectionName, img = _req$body.img, link = _req$body.link, websiteName = _req$body.websiteName;
           _context.prev = 1;
           _context.next = 4;
           return regeneratorRuntime.awrap(prisma.products.create({
@@ -27,7 +27,8 @@ exports.createProduct = function _callee(req, res) {
               subfamilyName: subfamilyName,
               sectionName: sectionName,
               img: img,
-              link: link
+              link: link,
+              websiteName: websiteName
             }
           }));
 
