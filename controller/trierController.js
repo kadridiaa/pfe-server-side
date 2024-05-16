@@ -47,3 +47,17 @@ exports.getProductschildren = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+exports.getProductsByPrice = async (req, res) => {
+  try {
+    const { price } = req.body; // Assuming price is provided in the request body
+    const products = await prisma.product.findMany({
+      where: {
+        price: Number(price) || 0, // Filtering products based on the provided price
+      },
+    });
+    res.json(products);
+  } catch (error) {
+    console.error("Error retrieving products:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

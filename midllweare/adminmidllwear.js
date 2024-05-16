@@ -15,7 +15,7 @@ const adminMiddleware = async (req, res, next) => {
     }
 
     // Verify the token and decode its payload
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+    jwt.verify(token, process.env.jwt, async (err, decoded) => {
       if (err) {
         return res.status(401).json({ error: "Unauthorized: Invalid token." });
       }
