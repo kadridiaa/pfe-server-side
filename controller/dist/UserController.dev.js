@@ -62,7 +62,10 @@ exports.loginUser = function _callee(req, res) {
           }, process.env.jwt); // Send the token in the response
 
           res.json({
-            token: token
+            token: token,
+            user: {
+              id: user.id
+            }
           });
           _context.next = 21;
           break;
