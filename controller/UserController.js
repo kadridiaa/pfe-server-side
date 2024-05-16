@@ -11,8 +11,9 @@ exports.loginUser = async (req, res) => {
     const user = await prisma.user.findUnique({
       where: { email },
     });
-    console.log(user)
+    console.log(email);
     
+
     // Check if the user exists and the password is correct
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ error: "Invalid credentials." });
@@ -93,11 +94,40 @@ exports.createUser = async (req, res) => {
   }
 };
 
-// Update user by ID
 exports.updateUser = async (req, res) => {
   const userId = parseInt(req.params.id);
-  const { username, email, firstName, lastName, isAdmin } = req.body;
+  const {
+    username,
+    email,
+    firstName,
+    lastName,
+    isAdmin,
+    oldPassword,
+    newPassword,
+  } = req.body;
+
   try {
+    // Find the user by ID
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Check if oldPassword is provided and matches the current hashed password
+    if (oldPassword && !(await bcrypt.compare(oldPassword, user.password))) {
+      return res.status(401).json({ error: "Old password is incorrect" });
+    }
+
+    // Hash the new password if provided
+    let hashedNewPassword = user.password; // Default to current password if newPassword not provided
+    if (newPassword) {
+      hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    }
+
+    // Update user data, including password if provided
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: {
@@ -106,8 +136,10 @@ exports.updateUser = async (req, res) => {
         firstName,
         lastName,
         isAdmin,
+        password: hashedNewPassword, // Update password if newPassword provided
       },
     });
+
     res.json(updatedUser);
   } catch (error) {
     console.error("Error updating user:", error);

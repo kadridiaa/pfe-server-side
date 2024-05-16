@@ -29,7 +29,7 @@ exports.loginUser = function _callee(req, res) {
 
         case 4:
           user = _context.sent;
-          console.log(user); // Check if the user exists and the password is correct
+          console.log(email); // Check if the user exists and the password is correct
 
           _context.t0 = !user;
 
@@ -224,20 +224,78 @@ exports.createUser = function _callee4(req, res) {
       }
     }
   }, null, null, [[4, 12]]);
-}; // Update user by ID
-
+};
 
 exports.updateUser = function _callee5(req, res) {
-  var userId, _req$body3, username, email, firstName, lastName, isAdmin, updatedUser;
+  var userId, _req$body3, username, email, firstName, lastName, isAdmin, oldPassword, newPassword, user, hashedNewPassword, updatedUser;
 
   return regeneratorRuntime.async(function _callee5$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
           userId = parseInt(req.params.id);
-          _req$body3 = req.body, username = _req$body3.username, email = _req$body3.email, firstName = _req$body3.firstName, lastName = _req$body3.lastName, isAdmin = _req$body3.isAdmin;
+          _req$body3 = req.body, username = _req$body3.username, email = _req$body3.email, firstName = _req$body3.firstName, lastName = _req$body3.lastName, isAdmin = _req$body3.isAdmin, oldPassword = _req$body3.oldPassword, newPassword = _req$body3.newPassword;
           _context5.prev = 2;
           _context5.next = 5;
+          return regeneratorRuntime.awrap(prisma.user.findUnique({
+            where: {
+              id: userId
+            }
+          }));
+
+        case 5:
+          user = _context5.sent;
+
+          if (user) {
+            _context5.next = 8;
+            break;
+          }
+
+          return _context5.abrupt("return", res.status(404).json({
+            error: "User not found"
+          }));
+
+        case 8:
+          _context5.t0 = oldPassword;
+
+          if (!_context5.t0) {
+            _context5.next = 13;
+            break;
+          }
+
+          _context5.next = 12;
+          return regeneratorRuntime.awrap(bcrypt.compare(oldPassword, user.password));
+
+        case 12:
+          _context5.t0 = !_context5.sent;
+
+        case 13:
+          if (!_context5.t0) {
+            _context5.next = 15;
+            break;
+          }
+
+          return _context5.abrupt("return", res.status(401).json({
+            error: "Old password is incorrect"
+          }));
+
+        case 15:
+          // Hash the new password if provided
+          hashedNewPassword = user.password; // Default to current password if newPassword not provided
+
+          if (!newPassword) {
+            _context5.next = 20;
+            break;
+          }
+
+          _context5.next = 19;
+          return regeneratorRuntime.awrap(bcrypt.hash(newPassword, 10));
+
+        case 19:
+          hashedNewPassword = _context5.sent;
+
+        case 20:
+          _context5.next = 22;
           return regeneratorRuntime.awrap(prisma.user.update({
             where: {
               id: userId
@@ -247,30 +305,32 @@ exports.updateUser = function _callee5(req, res) {
               email: email,
               firstName: firstName,
               lastName: lastName,
-              isAdmin: isAdmin
+              isAdmin: isAdmin,
+              password: hashedNewPassword // Update password if newPassword provided
+
             }
           }));
 
-        case 5:
+        case 22:
           updatedUser = _context5.sent;
           res.json(updatedUser);
-          _context5.next = 13;
+          _context5.next = 30;
           break;
 
-        case 9:
-          _context5.prev = 9;
-          _context5.t0 = _context5["catch"](2);
-          console.error("Error updating user:", _context5.t0);
+        case 26:
+          _context5.prev = 26;
+          _context5.t1 = _context5["catch"](2);
+          console.error("Error updating user:", _context5.t1);
           res.status(500).json({
             error: "Internal Server Error"
           });
 
-        case 13:
+        case 30:
         case "end":
           return _context5.stop();
       }
     }
-  }, null, null, [[2, 9]]);
+  }, null, null, [[2, 26]]);
 }; // Delete user by ID
 
 
