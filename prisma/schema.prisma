@@ -37,10 +37,10 @@ model Product {
   img                        String
   link                       String
   website  Website @relation(fields: [websiteId], references: [id])
-  websiteId Int
+  websiteId Int  // Provide a default value here
   favorit Favorite[]
-  
 }
+
 
 
 model User {
