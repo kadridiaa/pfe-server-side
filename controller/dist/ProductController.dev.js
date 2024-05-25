@@ -15,7 +15,7 @@ exports.createProduct = function _callee(req, res) {
           _req$body = req.body, product_id = _req$body.product_id, availability = _req$body.availability, name = _req$body.name, price = _req$body.price, oldPrice = _req$body.oldPrice, displayDiscountPercentage = _req$body.displayDiscountPercentage, familyName = _req$body.familyName, subfamilyName = _req$body.subfamilyName, sectionName = _req$body.sectionName, img = _req$body.img, link = _req$body.link, websiteName = _req$body.websiteName;
           _context.prev = 1;
           _context.next = 4;
-          return regeneratorRuntime.awrap(prisma.products.create({
+          return regeneratorRuntime.awrap(prisma.product.create({
             data: {
               product_id: product_id,
               availability: availability,
@@ -62,7 +62,7 @@ exports.getAllProducts = function _callee2(req, res) {
         case 0:
           _context2.prev = 0;
           _context2.next = 3;
-          return regeneratorRuntime.awrap(prisma.products.findMany());
+          return regeneratorRuntime.awrap(prisma.product.findMany());
 
         case 3:
           products = _context2.sent;
@@ -95,7 +95,7 @@ exports.getProductById = function _callee3(req, res) {
           productId = req.params.id;
           _context3.prev = 1;
           _context3.next = 4;
-          return regeneratorRuntime.awrap(prisma.products.findUnique({
+          return regeneratorRuntime.awrap(prisma.product.findUnique({
             where: {
               product_id: productId
             }
@@ -142,7 +142,7 @@ exports.updateProduct = function _callee4(req, res) {
           _req$body2 = req.body, availability = _req$body2.availability, name = _req$body2.name, price = _req$body2.price, oldPrice = _req$body2.oldPrice, displayDiscountPercentage = _req$body2.displayDiscountPercentage, familyName = _req$body2.familyName, subfamilyName = _req$body2.subfamilyName, sectionName = _req$body2.sectionName, img = _req$body2.img, link = _req$body2.link;
           _context4.prev = 2;
           _context4.next = 5;
-          return regeneratorRuntime.awrap(prisma.products.update({
+          return regeneratorRuntime.awrap(prisma.product.update({
             where: {
               product_id: productId
             },
@@ -191,7 +191,7 @@ exports.deleteProduct = function _callee5(req, res) {
           productId = req.params.id;
           _context5.prev = 1;
           _context5.next = 4;
-          return regeneratorRuntime.awrap(prisma.products["delete"]({
+          return regeneratorRuntime.awrap(prisma.product["delete"]({
             where: {
               product_id: productId
             }

@@ -14,7 +14,7 @@ exports.getProductsmen = function _callee(req, res) {
         case 0:
           _context.prev = 0;
           _context.next = 3;
-          return regeneratorRuntime.awrap(prisma.products.findMany({
+          return regeneratorRuntime.awrap(prisma.product.findMany({
             where: {
               sectionName: "MAN"
             }
@@ -52,7 +52,7 @@ exports.getProductswomen = function _callee2(req, res) {
         case 0:
           _context2.prev = 0;
           _context2.next = 3;
-          return regeneratorRuntime.awrap(prisma.products.findMany({
+          return regeneratorRuntime.awrap(prisma.product.findMany({
             where: {
               sectionName: "WOMAN"
             }
@@ -90,7 +90,7 @@ exports.getProductschildren = function _callee3(req, res) {
         case 0:
           _context3.prev = 0;
           _context3.next = 3;
-          return regeneratorRuntime.awrap(prisma.products.findMany({
+          return regeneratorRuntime.awrap(prisma.product.findMany({
             where: {
               sectionName: "CHILDREN"
             }
@@ -115,6 +115,45 @@ exports.getProductschildren = function _callee3(req, res) {
         case 12:
         case "end":
           return _context3.stop();
+      }
+    }
+  }, null, null, [[0, 8]]);
+};
+
+exports.getProductsByPrice = function _callee4(req, res) {
+  var price, products;
+  return regeneratorRuntime.async(function _callee4$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          _context4.prev = 0;
+          price = req.body.price; // Assuming price is provided in the request body
+
+          _context4.next = 4;
+          return regeneratorRuntime.awrap(prisma.product.findMany({
+            where: {
+              price: Number(price) || 0 // Filtering products based on the provided price
+
+            }
+          }));
+
+        case 4:
+          products = _context4.sent;
+          res.json(products);
+          _context4.next = 12;
+          break;
+
+        case 8:
+          _context4.prev = 8;
+          _context4.t0 = _context4["catch"](0);
+          console.error("Error retrieving products:", _context4.t0);
+          res.status(500).json({
+            error: "Internal server error"
+          });
+
+        case 12:
+        case "end":
+          return _context4.stop();
       }
     }
   }, null, null, [[0, 8]]);

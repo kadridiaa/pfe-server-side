@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 exports.getProductsmen = async (req, res) => {
   try {
-    const products = await prisma.products.findMany({
+    const products = await prisma.product.findMany({
       where: {
         sectionName: "MAN", 
       },
@@ -20,7 +20,7 @@ exports.getProductsmen = async (req, res) => {
 
 exports.getProductswomen = async (req, res) => {
   try {
-    const products = await prisma.products.findMany({
+    const products = await prisma.product.findMany({
       where: {
         sectionName: "WOMAN", 
       },
@@ -35,7 +35,7 @@ exports.getProductswomen = async (req, res) => {
 
 exports.getProductschildren = async (req, res) => {
   try {
-    const products = await prisma.products.findMany({
+    const products = await prisma.product.findMany({
       where: {
         sectionName: "CHILDREN",
       },
